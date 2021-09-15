@@ -1,0 +1,34 @@
+from flask import Flask, render_template, request
+from textblob import TextBlob
+from textblob import Word
+import nltk
+
+
+
+# download model (word )
+nltk.download('punkt')
+
+
+
+# initialze app
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return render_template('form.html')
+
+@app.route('/submit', methods = ['POST'])
+def form_data():
+    data = request.form.get('Enter_text')
+
+
+    output = Word(data).definitions
+
+    return render_template('predict.html' , data = f'{output}')
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+
